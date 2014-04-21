@@ -1,0 +1,25 @@
+#!/usr/bin/env ruby
+
+require_relative 'zellers_month'
+require_relative 'zellers_year'
+
+unless ARGV[0]
+  puts "You must provide a month and a year"
+  exit
+end
+
+month = ARGV.first
+year = ARGV.last.to_i
+
+if year < 1800 or year > 3000
+  puts "Argument must be for a date between the years 1800 and 3000"
+  exit
+end
+
+if month.to_s.length == 4
+  calendar = Zellers_year.new(year)
+  calendar.print_year
+else
+  calendar = Zellers_month.new(month, year)
+  calendar.new_print
+end
