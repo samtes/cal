@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 
-require_relative 'zellers_month'
-require_relative 'zellers_year'
+require_relative './lib/zellers_month'
+require_relative './lib/zellers_year'
 
 unless ARGV[0]
   puts "You must provide a month and a year"
