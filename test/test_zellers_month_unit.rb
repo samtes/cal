@@ -1,6 +1,7 @@
 require_relative 'helper'
 require_relative '../lib/zellers_month.rb'
 
+
 class TestZellers_configuration < MiniTest::Unit::TestCase
   def test_if_rake_runs
     assert_equal true, true

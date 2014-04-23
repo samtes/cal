@@ -7,16 +7,17 @@ class Zellers_month
   end
 
 
-  def new_print
-    puts "#{@month.capitalize} #{@year}".center(20)
-    puts "Su Mo Tu We Th Fr Sa"
+  def print_month
+    print "#{@month.capitalize} #{@year}".center(20) + "  "
+    puts "\n"
+    print "Su Mo Tu We Th Fr Sa"  + "  "
+    puts "\n"
     format_month_body.each do |line|
       converted_line = line.map do |day|
         day.to_s.rjust(2)
       end
-      puts converted_line.join(" ")
+      puts converted_line.join(" ") + "  "
     end
-    puts "\n"
   end
 
 
@@ -38,7 +39,7 @@ class Zellers_month
     is_leap?[adjust_set_month]
   end
 
-  def print_month
+  def print_month_old
     day = 1
     days = ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"]
     start_index = [18, 0, 3, 6, 9, 12, 15]
@@ -62,7 +63,7 @@ class Zellers_month
     puts "\n"
   end
 
-
+  #private
 
   def print_and_break(start, day)
     set_day = day
@@ -99,7 +100,14 @@ class Zellers_month
       d = 0
     end
     padding = Array.new(d, nil)
-    (padding + get_number_of_month).each_slice(7).to_a
+    updated_list = (padding + get_number_of_month).each_slice(7).to_a
+    updated_list.each do |a|
+      if a.length < 7
+        (7 - a.length).times {a << nil}
+      end
+    end
+    (6 - updated_list.length).times {updated_list << Array.new(7, nil)}
+    updated_list
   end
 
   def first_day
@@ -132,7 +140,7 @@ class Zellers_month
   end
 
   def is_leap?
-    if @year % 4 == 0 && @year % 100 == 0 && @year % 400 == 0
+    if @year % 4 == 0 && @year % 100 != 0 || @year % 400 == 0
       [31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
     else
       [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
