@@ -1,12 +1,13 @@
 class Zellers_month
   attr_reader :month, :year
+  @@m_set = ["Unknown", "Unknown", "Unknown", "march", "april", "may", "june", "july", "august", "september", "october", "november", "december", "january", "february"]
 
   def initialize(month, year)
     @month = refine_month(month)
     @year = year.to_i
   end
 
-
+  #prints the month requested by user
   def print_month
     print "#{@month.capitalize} #{@year}".center(20) + "  "
     puts "\n"
@@ -20,25 +21,16 @@ class Zellers_month
     end
   end
 
-
-  def output
-    if month.to_s.length < 1 && year.to_s.length < 1
-      raise ArgumentError, 'There is no arrgument passed'
-    elsif month.length > 0
-      "Result is #{@month.capitalize}, #{year}!"
-    else
-      "Result is #{year}!"
-    end
-  end
-
   def name
     @month.capitalize
   end
 
+  #prints the number of days in the month requested
   def length
     is_leap?[adjust_set_month]
   end
 
+  #prints the month requested by user in a different way
   def print_month_old
     day = 1
     days = ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"]
@@ -63,8 +55,9 @@ class Zellers_month
     puts "\n"
   end
 
-  #private
+ private
 
+ #prints each weeks of the month
   def print_and_break(start, day)
     set_day = day
     num_of_month = is_leap?[adjust_set_month]
@@ -90,10 +83,12 @@ class Zellers_month
     end
   end
 
+  #returns the number of the month
   def get_number_of_month
     (1..is_leap?[adjust_set_month]).to_a
   end
 
+  #format the month in a multidimentional array of arrays
   def format_month_body
    d = ((first_day + 5) % 7) + 1
     if d == 7
@@ -110,6 +105,7 @@ class Zellers_month
     updated_list
   end
 
+  #returns the first day of the month
   def first_day
    m = set_month
    q = 1
@@ -117,11 +113,13 @@ class Zellers_month
    h = (q + (((m+1) * 26)/10) + y + (y/4) + (6 * (y/100)) + (y/400)) % 7
  end
 
+ #makes sure that the month is converted in to a string
  def refine_month(m)
    mon = check_num_str(m)
    adjust_month(mon)
  end
 
+ #checks if the month passed is a word or a number
  def check_num_str(m)
    if m.to_i == 0
      m.to_s
@@ -130,6 +128,7 @@ class Zellers_month
    end
  end
 
+ #returns the month the user has passed
  def adjust_month(m)
     months = ["january", "february", "march", "april", "may", "june", "july", "august", "september", "october", "november", "december"]
     if m.is_a? Integer
@@ -147,6 +146,7 @@ class Zellers_month
     end
   end
 
+  #coverts the year into the zellers year
   def set_year
     if set_month > 2 and set_month < 13
       @year.to_i
@@ -155,9 +155,9 @@ class Zellers_month
     end
   end
 
+  #converts the month into zellers month
   def adjust_set_month
-    m_set = ["Unknown", "Unknown", "Unknown", "march", "april", "may", "june", "july", "august", "september", "october", "november", "december", "january", "february"]
-    index = m_set.index(@month.to_s)
+    index = @@m_set.index(@month.to_s)
     if index < 13
       index - 1
     else
@@ -166,8 +166,7 @@ class Zellers_month
   end
 
   def set_month
-    m_set = ["Unknown", "Unknown", "Unknown", "march", "april", "may", "june", "july", "august", "september", "october", "november", "december", "january", "february"]
-    m_set.index(@month.to_s)
+    @@m_set.index(@month.to_s)
   end
 
   def return_day(num)

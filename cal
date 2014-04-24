@@ -8,18 +8,31 @@ unless ARGV[0]
   exit
 end
 
-month = ARGV.first
-year = ARGV.last.to_i
-
-if year < 1800 or year > 3000
-  puts "Argument must be for a date between the years 1800 and 3000"
-  exit
-end
-
-if month.to_s.length == 4
-  calendar = Zellers_year.new(year)
-  calendar.print_year
+if ARGV.length == 2 && ARGV[1].length == 4
+  if ARGV[1].to_i < 1800 or ARGV[1].to_i > 3000
+    puts "Argument must be for a date between the years 1800 and 3000"
+    exit
+  else
+    calendar = Zellers_month.new(ARGV[0], ARGV[1])
+    calendar.print_month
+  end
 else
-  calendar = Zellers_month.new(month, year)
-  calendar.print_month
+  if ARGV.length == 2 && ARGV[0].length == 4
+    if ARGV[0].to_i < 1800 or ARGV[0].to_i > 3000
+      puts "Argument must be for a date between the years 1800 and 3000"
+      exit
+    else
+      if ARGV[1].to_i % 2 != 0
+        puts "For correct formatting please enter an even number between 1 and 12."
+        exit
+      else
+        calendar = Zellers_year.new(ARGV[0], ARGV[1])
+        calendar.print_year
+      end
+    end
+  else
+    calendar = Zellers_year.new(ARGV[0])
+    calendar.print_year
+  end
 end
+

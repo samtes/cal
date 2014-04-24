@@ -1,33 +1,28 @@
 class Zellers_year
   attr_reader :year
+  @@m_set = ["Unknown", "Unknown", "Unknown", "march", "april", "may", "june", "july", "august", "september", "october", "november", "december", "january", "february"]
+  @@months = ["january", "february", "march", "april", "may", "june", "july", "august", "september", "october", "november", "december"]
 
-  def initialize(year)
+  def initialize(year, row=3)
     @year = year.to_i
+    @row = row.to_i
   end
 
+  def row?
+    @row
+  end
+
+  #prints the year in 3 rows (default) or in rows passed.
   def print_year
     print_top_year
-    print_year_header(0)
-    puts "\n"
-    iterate(0)
-    puts "\n"
-    print_year_header(3)
-    puts "\n"
-    iterate(3)
-    puts "\n"
-    print_year_header(6)
-    puts "\n"
-    iterate(6)
-    puts "\n"
-    print_year_header(9)
-    puts "\n"
-    iterate(9)
+    print_body_rows
   end
 
   def output
     "Result is #{@year}!"
   end
 
+  #checkes if the year is a lea year or not
   def is_leap_year?
     if @year % 4 == 0 && @year % 100 != 0 || @year % 400 == 0
       "Yes, it is!"
@@ -36,25 +31,40 @@ class Zellers_year
     end
   end
 
-  private
+ private
 
+  #prints the top year centered to the number of rows
   def print_top_year
-    puts "#{@year}".rjust(32)
+    length_of_row = @row * 10 + 2
+    puts "#{@year}".rjust(length_of_row)
   end
 
+  #prints the months based on the number of months in a row
+  def print_body_rows
+    i = 0
+    columns = 12/@row
+    columns.times do
+      print_year_header(i)
+      puts "\n"
+      iterate(i)
+      i += @row
+    end
+  end
+
+  #prints the month and week headers based on the number of rows
   def print_year_header(mon)
-    months = ["january", "february", "march", "april", "may", "june", "july", "august", "september", "october", "november", "december"]
     index = mon
-    3.times do
-      print "#{months[index].to_s.capitalize.center(20)}  "
+    @row.times do
+      print "#{@@months[index].to_s.capitalize.center(20)}  "
       index += 1
     end
     puts "\n"
-    3.times do
+    @row.times do
       print "#{"Su Mo Tu We Th Fr Sa".center(20)}  "
     end
   end
 
+  #prints the actual days of the months in the row
   def iterate(m)
     i = 0
     6.times do
@@ -63,11 +73,11 @@ class Zellers_year
     end
   end
 
+  #prints each weeks of the months in the row
   def print_year_body(mon, itr)
-    months = ["january", "february", "march", "april", "may", "june", "july", "august", "september", "october", "november", "december"]
     index = mon
-    3.times do
-      converted_line = format_month_body(months[index])[itr].map do |day|
+    @row.times do
+      converted_line = format_month_body(@@months[index])[itr].map do |day|
         day.to_s.rjust(2)
       end
       index += 1
@@ -76,11 +86,12 @@ class Zellers_year
     puts  "\n"
   end
 
-
+  #returns the number of months in the requested month
   def get_number_of_month(m)
     (1..is_leap?[adjust_set_month(m)]).to_a
   end
 
+  #arranges the days of the month in a multi multidimensional array of 6 arrays
   def format_month_body(m)
    d = ((first_day(m) + 5) % 7) + 1
     if d == 7
@@ -101,6 +112,7 @@ class Zellers_year
     updated_list
   end
 
+  #returns the day where the month starts
   def first_day(month)
    m = set_month(month)
    q = 1
@@ -116,6 +128,7 @@ class Zellers_year
     end
   end
 
+  #arranges the year into zellers year
   def set_year(m)
     if set_month(m) > 2 and set_month(m) < 13
       @year.to_i
@@ -124,9 +137,9 @@ class Zellers_year
     end
   end
 
+  #arranges the month into zellers month
   def adjust_set_month(m)
-    m_set = ["Unknown", "Unknown", "Unknown", "march", "april", "may", "june", "july", "august", "september", "october", "november", "december", "january", "february"]
-    index = m_set.index(m.to_s)
+    index = @@m_set.index(m.to_s)
     if index < 13
       index - 1
     else
@@ -134,9 +147,9 @@ class Zellers_year
     end
   end
 
+  #returns the index of the month passed
   def set_month(m)
-    m_set = ["Unknown", "Unknown", "Unknown", "march", "april", "may", "june", "july", "august", "september", "october", "november", "december", "january", "february"]
-    m_set.index(m.to_s)
+    @@m_set.index(m.to_s)
   end
 
 end
