@@ -55,6 +55,7 @@ class TestMonthsIntegration < Test::Unit::TestCase
   end
 
   def test_crazy_test_1800_to_3000
+    skip
     for i in 1800..3000
       for j in 1..12
         expected = `cal -h #{j} #{i}`

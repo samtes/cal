@@ -45,7 +45,7 @@ class Zellers_year
     columns = 12/@row
     columns.times do
       print_year_header(i)
-      puts "\n"
+      print_week_headers
       iterate(i)
       i += @row
     end
@@ -59,9 +59,13 @@ class Zellers_year
       index += 1
     end
     puts "\n"
+  end
+
+  def print_week_headers
     @row.times do
       print "#{"Su Mo Tu We Th Fr Sa".center(20)}  "
     end
+    puts  "\n"
   end
 
   #prints the actual days of the months in the row
@@ -83,7 +87,6 @@ class Zellers_year
       index += 1
       print converted_line.join(" ") + "  "
     end
-    puts  "\n"
   end
 
   #returns the number of months in the requested month
