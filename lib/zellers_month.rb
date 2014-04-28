@@ -7,6 +7,10 @@ class Zellers_month
     @year = year.to_i
   end
 
+  def output
+    "Result is #{@month.capitalize}, #{@year}!"
+  end
+
   #prints the month requested by user
   def print_month
     print "#{@month.capitalize} #{@year}".center(20) + "  "
