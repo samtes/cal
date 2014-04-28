@@ -7,6 +7,23 @@ class TestZellers_configuration < MiniTest::Unit::TestCase
     assert_equal true, true
   end
 
+  def test_output_for_month_and_date
+    june_2000 = Zellers_month.new("june", 2000)
+    assert_equal("Result is June, 2000!", june_2000.output)
+  end
+
+  def test_output_without_month
+    june_2000 = Zellers_month.new("", 2000)
+    assert_equal("Result is 2000!", june_2000.output)
+  end
+
+  def test_output_without_input
+    june_2000 = Zellers_month.new("", "")
+    assert_raises ArgumentError do
+      june_2000.output("There is no argument passed")
+    end
+  end
+
   def test_month_name_january_a
     january_2000 = Zellers_month.new("january", 2000)
     assert_equal("January", january_2000.name)
@@ -192,4 +209,13 @@ class TestZellers_configuration < MiniTest::Unit::TestCase
     assert_equal(31, dec_2010.length)
   end
 
+  def test_first_day_of_month_with_num_output
+    june_2000 = Zellers_month.new(6, 2000)
+    assert_equal("Result is June, 2000!", june_2000.output)
+  end
+
+  def test_to_see_methos_responds
+    june_2000 = Zellers_month.new("june", 2000)
+    assert june_2000.respond_to? :output
+  end
 end
